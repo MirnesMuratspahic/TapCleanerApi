@@ -12,8 +12,8 @@ using TapCleaner.Context;
 namespace TapCleaner.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240830133306_Container model")]
-    partial class Containermodel
+    [Migration("20240830161703_Initial migration")]
+    partial class Initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,9 @@ namespace TapCleaner.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfReports")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -100,6 +103,51 @@ namespace TapCleaner.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TapCleaner.Models.UserContainer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ContainerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContainerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserContainers");
+                });
+
+            modelBuilder.Entity("TapCleaner.Models.UserContainer", b =>
+                {
+                    b.HasOne("TapCleaner.Models.Container", "Container")
+                        .WithMany()
+                        .HasForeignKey("ContainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TapCleaner.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Container");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

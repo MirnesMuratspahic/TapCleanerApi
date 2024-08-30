@@ -45,16 +45,6 @@ namespace TapCleaner.Services
                 return (error,null);
             }
 
-            if (userFromDatabase.Role != "Admin")
-            {
-                error = new ErrorProvider()
-                {
-                    Status = true,
-                    Name = "Only admin can log in!"
-                };
-                return (error, null);
-            }
-
             if (!BCrypt.Net.BCrypt.Verify(userDto.Password, userFromDatabase.PasswordHash))
             {
                 error = new ErrorProvider()
@@ -71,17 +61,17 @@ namespace TapCleaner.Services
 
         }
 
-        public async Task<(ErrorProvider, User)> GetUserById(int id)
+        public async Task<(ErrorProvider, User)> GetUserByEmail(string email)
         {
 
-            var userFromDatabase = await DbContext.Users.FindAsync(id);
+            var userFromDatabase = await DbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
 
             if (userFromDatabase == null)
             {
                 error = new ErrorProvider()
                 {
                     Status = true,
-                    Name = "There is no user with that ID!"
+                    Name = "There is no user with that email!"
 
                 };
                 return (error, null);

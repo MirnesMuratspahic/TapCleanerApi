@@ -8,7 +8,7 @@ using TapCleaner.Services.Interfaces;
 
 namespace TapCleaner.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ContainerController : ControllerBase
     {
@@ -21,7 +21,7 @@ namespace TapCleaner.Controllers
         }
 
         [Authorize]
-        [HttpGet("getcontainers")]
+        [HttpGet("GetContainers")]
         public async Task<IActionResult> GetUsers()
         {
             var (errorStatus, containers) = await containerService.GetContainers();
@@ -31,13 +31,33 @@ namespace TapCleaner.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("addcontainer")]
-        public async Task<IActionResult> AddContainer(Container container)
+        [HttpPost("AddContainer")]
+        public async Task<IActionResult> AddContainer(dtoContainer dtoContainer)
         {
-            var errorStatus = await containerService.AddContainer(container);
+            var errorStatus = await containerService.AddContainer(dtoContainer);
             if (errorStatus.Status == true)
                 return BadRequest(errorStatus.Name);
-            return Ok(errorStatus);
+            return Ok(errorStatus.Name);
+        }
+
+        [Authorize(Roles = "User")]
+        [HttpPost("ReportContainer")]
+        public async Task<IActionResult> ReportContainer(dtoReportContainer userContainer)
+        {
+            var errorStatus = await containerService.ReportContainer(userContainer);
+            if (errorStatus.Status == true)
+                return BadRequest(errorStatus.Name);
+            return Ok(errorStatus.Name);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("CleanContainer")]
+        public async Task<IActionResult> CleanContainer([FromBody] string name)
+        {
+            var errorStatus = await containerService.CleanContainer(name);
+            if (errorStatus.Status == true)
+                return BadRequest(errorStatus.Name);
+            return Ok(errorStatus.Name);
         }
     }
 }

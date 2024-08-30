@@ -16,5 +16,7 @@ namespace TapCleaner.Models
         public string Type { get; set; }
         [Required]
         public string Condition { get; set; }
+        [Required]
+        public int NumberOfReports { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TapCleaner.Controllers
 {
-    [Route("")]
+    [Route("[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -21,7 +21,7 @@ namespace TapCleaner.Controllers
         }
 
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(dtoUserLogin dtoUser)
         {
             var (errorStatus, token) = await userService.Login(dtoUser);
@@ -31,7 +31,7 @@ namespace TapCleaner.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("users")]
+        [HttpGet("GetUsers")]
         public async Task<IActionResult> GetUsers()
         {
             var (errorStatus, users) = await userService.GetUsers();
@@ -41,7 +41,7 @@ namespace TapCleaner.Controllers
         }
 
         [Authorize(Roles = "User")]
-        [HttpPut("users/update/{id}")]
+        [HttpPut("UpdateUser/{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] dtoUserUpdate user)
         {
             var errorStatus = await userService.UpdateUser(id,user);
@@ -52,17 +52,17 @@ namespace TapCleaner.Controllers
 
 
         [Authorize(Roles = "User")]
-        [HttpPost("users/details/{id}")]
-        public async Task<IActionResult> GetUserById([FromRoute] int id)
+        [HttpPost("GetUserByEmail")]
+        public async Task<IActionResult> GetUserByEmail([FromBody] string email)
         {
-            var (errorStatus, user) = await userService.GetUserById(id);
+            var (errorStatus, user) = await userService.GetUserByEmail(email);
             if (errorStatus.Status == true)
                 return BadRequest(errorStatus.Name);
             return Ok(user);
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("users/block/{id}")]
+        [HttpPost("BlockUserById{id}")]
         public async Task<IActionResult> BlockUserById([FromRoute] int id)
         {
             var errorStatus = await userService.BlockUserById(id);
@@ -71,14 +71,13 @@ namespace TapCleaner.Controllers
             return Ok(errorStatus.Name);
         }
 
-        [Authorize(Roles = "User")]
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(dtoUserRegistration dtoUser)
         {
             var errorStatus = await userService.Register(dtoUser);
             if (errorStatus.Status == true)
                 return BadRequest(errorStatus.Name);
-            return Ok(errorStatus);
+            return Ok(errorStatus.Name);
         }
 
     }

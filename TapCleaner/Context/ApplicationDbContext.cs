@@ -8,6 +8,7 @@ namespace TapCleaner.Context
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
         public DbSet<User> Users {  get; set; }
         public DbSet<Container> Containers { get; set; }
+        public DbSet<UserContainer> UserContainers { get; set; }
 
     }
 
