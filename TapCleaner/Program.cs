@@ -47,6 +47,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IContainerService, ContainerService>();
 
 var app = builder.Build();
 
