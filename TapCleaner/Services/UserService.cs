@@ -98,7 +98,6 @@ namespace TapCleaner.Services
 
             userFromDatabase.FirstName = user.FirstName;
             userFromDatabase.LastName = user.LastName;
-            userFromDatabase.DateOfBirth = user.DateOfBirth;
             userFromDatabase.ImageUrl = user.ImageUrl;
 
             DbContext.Users.Update(userFromDatabase);
@@ -167,7 +166,6 @@ namespace TapCleaner.Services
                 FirstName = userDto.FirstName.ToLower(),
                 LastName = userDto.LastName.ToLower(),
                 ImageUrl = userDto.ImageUrl,
-                DateOfBirth = userDto.DateOfBirth,
                 Status = "Active",
                 Role = userDto.Role,
             };

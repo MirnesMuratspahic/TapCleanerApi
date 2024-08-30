@@ -16,8 +16,6 @@ namespace TapCleaner.Models
         public string LastName { get; set; } = string.Empty;
         [Required]
         public string ImageUrl { get; set; } = string.Empty;
-        [Required]
-        public DateTime DateOfBirth { get; set; }
         [JsonIgnore][Required]
         public string Status {  get; set; } = string.Empty;
         [JsonIgnore][Required]

@@ -12,7 +12,7 @@ using TapCleaner.Context;
 namespace TapCleaner.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240830161703_Initial migration")]
+    [Migration("20240830164318_Initial migration")]
     partial class Initialmigration
     {
         /// <inheritdoc />
@@ -68,9 +68,6 @@ namespace TapCleaner.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()

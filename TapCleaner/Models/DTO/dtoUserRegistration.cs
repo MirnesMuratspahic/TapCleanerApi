@@ -16,8 +16,6 @@ namespace TapCleaner.Models.DTO
         [Required]
         public string ImageUrl { get; set; } = string.Empty;
         [Required]
-        public DateTime DateOfBirth { get; set; }
-        [Required]
         public string Role { get; set; } = string.Empty;
     }
 }
