@@ -14,10 +14,10 @@ namespace TapCleaner.Services.Interfaces
         ///users: Fetch all users endpoint.
         Task<(ErrorProvider, User)> GetUserByEmail(string email);
         ///users/block/(id): Block a user by ID endpoint.
-        Task<ErrorProvider> BlockUserById(int id);
+        Task<ErrorProvider> BlockUserByEmail(string email);
         ///register: Register/add user endpoint.
         Task<ErrorProvider> Register(dtoUserRegistration userRegistration);
         /// Update user informations
-        Task<ErrorProvider> UpdateUser(int id, dtoUserUpdate user);
+        Task<ErrorProvider> UpdateUser(string email, dtoUserUpdate user);
     }
 }

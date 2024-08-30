@@ -61,7 +61,7 @@ namespace TapCleaner.Services
 
         }
 
-        public async Task<(ErrorProvider, User)> GetUserByEmail(string email)
+        public async Task<(ErrorProvider, User)> GetUserByEmail([FromBody] string email)
         {
 
             var userFromDatabase = await DbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
@@ -80,17 +80,17 @@ namespace TapCleaner.Services
             return (error, userFromDatabase);
         }
 
-        public async Task<ErrorProvider> UpdateUser(int id, dtoUserUpdate user)
+        public async Task<ErrorProvider> UpdateUser(string email, dtoUserUpdate user)
         {
 
-            var userFromDatabase = await DbContext.Users.FindAsync(id);
+            var userFromDatabase = await DbContext.Users.FirstOrDefaultAsync(x=> x.Email == email);
 
             if (userFromDatabase == null)
             {
                 error = new ErrorProvider()
                 {
                     Status = true,
-                    Name = "There is no user with that ID!"
+                    Name = "There is no user with that email!"
 
                 };
                 return error;
@@ -111,17 +111,17 @@ namespace TapCleaner.Services
             return error;
         }
 
-        public async Task<ErrorProvider> BlockUserById(int id)
+        public async Task<ErrorProvider> BlockUserByEmail(string email)
         {
 
-            var userFromDatabase = await DbContext.Users.FindAsync(id);
+            var userFromDatabase = await DbContext.Users.FirstOrDefaultAsync(x=>x.Email == email);
 
             if (userFromDatabase == null)
             {
                 error = new ErrorProvider()
                 {
                     Status = true,
-                    Name = "There is no user with that ID!"
+                    Name = "There is no user with that email!"
 
                 };
                 return error;

@@ -40,18 +40,18 @@ namespace TapCleaner.Controllers
             return Ok(users);
         }
 
-        [Authorize(Roles = "User")]
-        [HttpPut("UpdateUser/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] dtoUserUpdate user)
+        [Authorize]
+        [HttpPut("UpdateUser/{email}")]
+        public async Task<IActionResult> UpdateUser(string email, [FromBody] dtoUserUpdate user)
         {
-            var errorStatus = await userService.UpdateUser(id,user);
+            var errorStatus = await userService.UpdateUser(email,user);
             if (errorStatus.Status == true)
                 return BadRequest(errorStatus.Name);
             return Ok(errorStatus.Name);
         }
 
 
-        [Authorize(Roles = "User")]
+        [Authorize]
         [HttpPost("GetUserByEmail")]
         public async Task<IActionResult> GetUserByEmail([FromBody] string email)
         {
@@ -62,10 +62,10 @@ namespace TapCleaner.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("BlockUserById{id}")]
-        public async Task<IActionResult> BlockUserById([FromRoute] int id)
+        [HttpPost("BlockUserByEmail{id}")]
+        public async Task<IActionResult> BlockUserById([FromRoute] string email)
         {
-            var errorStatus = await userService.BlockUserById(id);
+            var errorStatus = await userService.BlockUserByEmail(email);
             if (errorStatus.Status == true)
                 return BadRequest(errorStatus.Name);
             return Ok(errorStatus.Name);
