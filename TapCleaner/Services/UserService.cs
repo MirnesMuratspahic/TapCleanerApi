@@ -28,7 +28,7 @@ namespace TapCleaner.Services
             configuration = _configuration;
         }
 
-        public async Task<(ErrorProvider, string)> Login(dtoUserLogin userDto)
+        public async Task<(ErrorProvider, dtoUserInfo)> Login(dtoUserLogin userDto)
         {
             if (userDto == null)
                 return (defaultError,null);
@@ -57,7 +57,13 @@ namespace TapCleaner.Services
             var token = CreateToken(userFromDatabase);
             await DbContext.SaveChangesAsync();
 
-            return (error,token);
+            var userInfo = new dtoUserInfo()
+            {
+                Token = token,
+                Rola = userFromDatabase.Role
+            };
+
+            return (error, userInfo);
 
         }
 
