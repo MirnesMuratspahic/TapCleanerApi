@@ -40,7 +40,7 @@ namespace TapCleaner.Controllers
             return Ok(errorStatus.Name);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize]
         [HttpPost("ReportContainer")]
         public async Task<IActionResult> ReportContainer(dtoReportContainer userContainer)
         {
