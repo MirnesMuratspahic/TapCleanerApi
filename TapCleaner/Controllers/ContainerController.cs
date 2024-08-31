@@ -31,6 +31,16 @@ namespace TapCleaner.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpDelete("DeleteContainerByName")]
+        public async Task<IActionResult> DeleteContainerByName([FromBody] string name)
+        {
+            var errorStatus = await containerService.DeleteContainerByName(name);
+            if (errorStatus.Status == true)
+                return BadRequest(errorStatus.Name);
+            return Ok(errorStatus.Name);
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("AddContainer")]
         public async Task<IActionResult> AddContainer(dtoContainer dtoContainer)
         {

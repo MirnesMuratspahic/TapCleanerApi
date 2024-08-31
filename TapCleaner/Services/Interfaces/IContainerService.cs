@@ -9,5 +9,6 @@ namespace TapCleaner.Services.Interfaces
         Task<ErrorProvider> AddContainer(dtoContainer dtoContainer);
         Task<ErrorProvider> ReportContainer(dtoReportContainer userContainer);
         Task<ErrorProvider> CleanContainer(string name);
+        Task<ErrorProvider> DeleteContainerByName(string name);
     }
 }

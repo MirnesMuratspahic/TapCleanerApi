@@ -34,7 +34,7 @@ namespace TapCleaner.Services
 
             var allCoordinates = DbContext.Containers.Select(c => c.Coordinates).ToList();
 
-            string input = "Tell me which coordinate from all this coordinates (" + string.Join("; ", allCoordinates) + ") is the closest one to this coordinate (" + string.Join("; ", allCoordinates) + ").You must return me one coordinate from that bracket";
+            string input = "Tell me which coordinate from all this coordinates (" + string.Join("; ", allCoordinates) + ") is the closest one to this coordinate (" + string.Join("; ", allCoordinates) + ").Search on google maps and thes you must return me one coordinate from that bracket, in this format -> 43.356115570686555, 17.67999879831259";
             conversation.AppendUserInput(input);
 
             var response = await conversation.GetResponseFromChatbot();

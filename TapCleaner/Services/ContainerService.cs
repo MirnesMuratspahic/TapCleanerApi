@@ -38,6 +38,32 @@ namespace TapCleaner.Services
             return (error, containers);
         }
 
+        public async Task<ErrorProvider> DeleteContainerByName(string name)
+        {
+            var container = await DbContext.Containers.FirstOrDefaultAsync(x => x.Name == name);
+
+            if (container == null)
+            {
+                error = new ErrorProvider()
+                {
+                    Name = "None container in database!",
+                    Status = true,
+                };
+                return error;
+            }
+
+            DbContext.Containers.Remove(container);
+            await DbContext.SaveChangesAsync();
+
+            error = new ErrorProvider()
+            {
+                Status = false,
+                Name = "Removed successfully!"
+            };
+
+            return error;
+        }
+
         public async Task<ErrorProvider> AddContainer(dtoContainer dtoContainer)
         {
             if (dtoContainer == null)
