@@ -10,7 +10,7 @@ namespace TapCleaner.Services.Interfaces
         ///users: Get all users
         Task<(ErrorProvider, List<User>)> GetUsers();
         ///login: Admin login authentication endpoint.
-        Task<(ErrorProvider, string)> Login(dtoUserLogin userLogin);
+        Task<(ErrorProvider, dtoUserInfo)> Login(dtoUserLogin userLogin);
         ///users: Fetch all users endpoint.
         Task<(ErrorProvider, User)> GetUserByEmail(string email);
         ///users/block/(id): Block a user by ID endpoint.

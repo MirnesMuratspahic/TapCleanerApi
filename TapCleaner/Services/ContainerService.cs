@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileSystemGlobbing;
 using System.Text.RegularExpressions;
 using TapCleaner.Context;
 using TapCleaner.Models;
@@ -7,7 +8,7 @@ using TapCleaner.Services.Interfaces;
 
 namespace TapCleaner.Services
 {
-    public class ContainerService:IContainerService
+    public class ContainerService : IContainerService
     {
         public ApplicationDbContext DbContext { get; set; }
         public IConfiguration configuration { get; set; }
@@ -25,7 +26,7 @@ namespace TapCleaner.Services
         public async Task<(ErrorProvider, List<Container>)> GetContainers()
         {
             var containers = await DbContext.Containers.ToListAsync();
-            if(containers.Count == 0)
+            if (containers.Count == 0)
             {
                 error = new ErrorProvider()
                 {
@@ -45,7 +46,7 @@ namespace TapCleaner.Services
             }
 
             string pattern = @"\d+";
-            int nextNumber = 1;
+            int nextNumber = 1; 
 
             var theLastContainer = await DbContext.Containers.OrderByDescending(x => x.Id).FirstOrDefaultAsync();
 
@@ -85,16 +86,18 @@ namespace TapCleaner.Services
             return error;
         }
 
+
+
         public async Task<ErrorProvider> ReportContainer(dtoReportContainer dtoUserContainer)
         {
-            if(dtoUserContainer == null)
+            if (dtoUserContainer == null)
             {
                 return defaultError;
             }
 
             var userFromDatabase = await DbContext.Users.FirstOrDefaultAsync(x => x.Email == dtoUserContainer.UserEmail);
 
-            if(userFromDatabase == null)
+            if (userFromDatabase == null)
             {
                 error = new ErrorProvider()
                 {

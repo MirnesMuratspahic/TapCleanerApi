@@ -24,10 +24,10 @@ namespace TapCleaner.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(dtoUserLogin dtoUser)
         {
-            var (errorStatus, token) = await userService.Login(dtoUser);
+            var (errorStatus, userInfo) = await userService.Login(dtoUser);
             if (errorStatus.Status == true)
                 return BadRequest(errorStatus.Name);
-            return Ok(token);
+            return Ok(userInfo);
         }
 
         [Authorize(Roles = "Admin")]
