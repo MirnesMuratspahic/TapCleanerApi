@@ -230,5 +230,37 @@ namespace TapCleaner.Services
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
+
+        public async Task<ErrorProvider> AddQuery(dtoUserQuery query)
+        {
+            if(query == null)
+            {
+                return defaultError;
+            }
+
+            var user = await DbContext.Users.FirstOrDefaultAsync(x => x.Email == query.Email);
+
+            if (user == null)
+            {
+                error = new ErrorProvider()
+                {
+                    Status = true,
+                    Name = "U bazi trenutno nemamo korisnika koji posjeduje taj e-mail."
+                };
+                return error;
+            }
+
+            var userQuery = new UserQuery()
+            {
+                User = user,
+                Query = query.Query,
+            };
+
+            DbContext.UserQueries.Add(userQuery);
+            await DbContext.SaveChangesAsync();
+
+            error.Name = "Uspješno ste poslali upit";
+            return error;
+        }
     }
 }

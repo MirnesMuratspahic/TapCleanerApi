@@ -19,5 +19,7 @@ namespace TapCleaner.Services.Interfaces
         Task<ErrorProvider> Register(dtoUserRegistration userRegistration);
         /// Update user informations
         Task<ErrorProvider> UpdateUser(string email, dtoUserUpdate user);
+        /// Adding user query
+        Task <ErrorProvider> AddQuery (dtoUserQuery userQuery);
     }
 }

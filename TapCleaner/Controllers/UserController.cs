@@ -80,5 +80,14 @@ namespace TapCleaner.Controllers
             return Ok(errorStatus.Name);
         }
 
+        [HttpPost("AddQuery")]
+        public async Task<IActionResult> AddQuery([FromBody] dtoUserQuery request)
+        {
+            var errorStatus = await userService.AddQuery(request);
+            if(errorStatus.Status == true)
+                return BadRequest(errorStatus.Name);
+            return Ok(errorStatus.Name);
+        }
+
     }
 }

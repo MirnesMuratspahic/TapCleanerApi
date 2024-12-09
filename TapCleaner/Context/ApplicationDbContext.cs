@@ -9,6 +9,7 @@ namespace TapCleaner.Context
         public DbSet<User> Users {  get; set; }
         public DbSet<Container> Containers { get; set; }
         public DbSet<UserContainer> UserContainers { get; set; }
+        public DbSet<UserQuery> UserQueries { get; set; }
 
     }
 
