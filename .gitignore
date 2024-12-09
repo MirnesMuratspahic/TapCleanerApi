@@ -397,4 +397,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-Jumpin/appsettings.json
+TapCleanerApi/appsettings.json
