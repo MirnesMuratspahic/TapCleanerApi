@@ -259,7 +259,7 @@ namespace TapCleaner.Services
             DbContext.UserQueries.Add(userQuery);
             await DbContext.SaveChangesAsync();
 
-            error.Name = "Uspješno ste poslali upit";
+            error.Name = "Uspješno ste poslali upit!";
             return error;
         }
     }
