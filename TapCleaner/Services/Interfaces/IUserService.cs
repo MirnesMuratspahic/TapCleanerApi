@@ -21,5 +21,7 @@ namespace TapCleaner.Services.Interfaces
         Task<ErrorProvider> UpdateUser(string email, dtoUserUpdate user);
         /// Adding user query
         Task <ErrorProvider> AddQuery (dtoUserQuery userQuery);
+        /// Getting All Query Data
+        Task<(ErrorProvider,List<UserQuery>)> GetUsersQueries();
     }
 }

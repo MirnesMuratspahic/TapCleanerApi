@@ -147,7 +147,6 @@ namespace TapCleaner.Services
             return error;
         }
 
-
         public async Task<ErrorProvider> Register(dtoUserRegistration userDto)
         {
             if (userDto == null)
@@ -261,6 +260,24 @@ namespace TapCleaner.Services
 
             error.Name = "Uspješno ste poslali upit!";
             return error;
+        }
+
+        public async Task<(ErrorProvider, List<UserQuery>)> GetUsersQueries()
+        {
+
+            var userQueries = await DbContext.UserQueries.Include(u => u.User).ToListAsync();
+
+            if(userQueries.Count == 0)
+            {
+                error = new ErrorProvider()
+                {
+                    Status = true,
+                    Name = "There are no user queries in the database",
+                };
+                return (error, null);
+            }
+
+            return (error, userQueries);
         }
     }
 }
