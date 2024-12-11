@@ -36,5 +36,14 @@ namespace TapCleaner.Controllers
                 return BadRequest(errorStatus.Name);
             return Ok(usersQueries);
         }
+
+        [HttpPost("GetUserQueries")]
+        public async Task<IActionResult> GetUserQueries([FromBody] string email)
+        {
+            var (errorStatus, userQueries) = await queryService.GetUserQueries(email);
+            if(errorStatus.Status == true)
+                return BadRequest(errorStatus.Name);
+            return Ok(userQueries);
+        }
     }
 }

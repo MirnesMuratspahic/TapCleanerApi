@@ -9,5 +9,7 @@ namespace TapCleaner.Services.Interfaces
         Task<ErrorProvider> AddQuery(dtoUserQuery userQuery);
         /// Getting All Query Data
         Task<(ErrorProvider, List<UserQuery>)> GetUsersQueries();
+        /// Getting Query From Specific User
+        Task<(ErrorProvider, List<UserQuery>)> GetUserQueries(string email);
     }
 }

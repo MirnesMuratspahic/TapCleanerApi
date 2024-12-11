@@ -5,6 +5,7 @@ using TapCleaner.Services.Interfaces;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using TapCleaner.Context;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TapCleaner.Services
 {
@@ -71,6 +72,22 @@ namespace TapCleaner.Services
             }
 
             return (error, userQueries);
+        }
+
+        public async Task<(ErrorProvider, List<UserQuery>)> GetUserQueries(string email)
+        {
+            var queries = await DbContext.UserQueries.Where(x => x.User.Email == email).Include(x => x.User).ToListAsync();
+
+            if (queries.Count == 0)
+            {
+                error = new ErrorProvider()
+                {
+                    Status = true,
+                    Name = "Trenutno nemate upita poslanih našoj administraciji."
+                };
+                return (error, null);
+            }
+            return(error, queries);
         }
     }
 }
