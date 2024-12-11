@@ -21,7 +21,6 @@ namespace TapCleaner.Services
         public ErrorProvider defaultError = new ErrorProvider() { Status = true, Name = "Property must not be null" };
         public string EmailClaim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
 
-        public UserService() { }
         public UserService(ApplicationDbContext context, IConfiguration _configuration)
         {
             DbContext = context;
@@ -66,8 +65,6 @@ namespace TapCleaner.Services
             return (error, userInfo);
 
         }
-
-
 
         public async Task<(ErrorProvider, User)> GetUserByEmail([FromBody] string email)
         {
@@ -228,56 +225,6 @@ namespace TapCleaner.Services
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
-        }
-
-        public async Task<ErrorProvider> AddQuery(dtoUserQuery query)
-        {
-            if(query == null)
-            {
-                return defaultError;
-            }
-
-            var user = await DbContext.Users.FirstOrDefaultAsync(x => x.Email == query.Email);
-
-            if (user == null)
-            {
-                error = new ErrorProvider()
-                {
-                    Status = true,
-                    Name = "U bazi trenutno nemamo korisnika koji posjeduje taj e-mail."
-                };
-                return error;
-            }
-
-            var userQuery = new UserQuery()
-            {
-                User = user,
-                Query = query.Query,
-            };
-
-            DbContext.UserQueries.Add(userQuery);
-            await DbContext.SaveChangesAsync();
-
-            error.Name = "Uspješno ste poslali upit!";
-            return error;
-        }
-
-        public async Task<(ErrorProvider, List<UserQuery>)> GetUsersQueries()
-        {
-
-            var userQueries = await DbContext.UserQueries.Include(u => u.User).ToListAsync();
-
-            if(userQueries.Count == 0)
-            {
-                error = new ErrorProvider()
-                {
-                    Status = true,
-                    Name = "There are no user queries in the database",
-                };
-                return (error, null);
-            }
-
-            return (error, userQueries);
         }
     }
 }

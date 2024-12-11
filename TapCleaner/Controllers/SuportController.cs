@@ -6,7 +6,7 @@ using TapCleaner.Services.Interfaces;
 
 namespace TapCleaner.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class SuportController : ControllerBase
     {

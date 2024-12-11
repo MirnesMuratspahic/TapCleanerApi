@@ -49,6 +49,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
 builder.Services.AddScoped<ISuportService, SuportService>();
+builder.Services.AddScoped<IQueryService, QueryService>(); 
 
 var app = builder.Build();
 
