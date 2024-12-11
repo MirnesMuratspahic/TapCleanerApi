@@ -11,5 +11,6 @@ namespace TapCleaner.Services.Interfaces
         Task<(ErrorProvider, List<UserQuery>)> GetUsersQueries();
         /// Getting Query From Specific User
         Task<(ErrorProvider, List<UserQuery>)> GetUserQueries(string email);
+        Task<ErrorProvider> DeleteQuery(int queryId);
     }
 }

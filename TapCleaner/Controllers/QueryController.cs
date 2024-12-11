@@ -45,5 +45,14 @@ namespace TapCleaner.Controllers
                 return BadRequest(errorStatus.Name);
             return Ok(userQueries);
         }
+
+        [HttpDelete("DeleteQuery/{queryId}")]
+        public async Task<IActionResult> DeleteQuery([FromRoute] int queryId)
+        {
+            var errorStatus = await queryService.DeleteQuery(queryId);
+            if (errorStatus.Status == true)
+                return BadRequest(errorStatus.Name);
+            return Ok(errorStatus.Name);
+        }
     }
 }

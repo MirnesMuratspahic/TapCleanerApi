@@ -39,7 +39,7 @@ namespace TapCleaner.Services
                 error = new ErrorProvider()
                 {
                     Status = true,
-                    Name = "U bazi trenutno nemamo korisnika koji posjeduje taj e-mail."
+                    Name = "We don't have user with same data."
                 };
                 return error;
             }
@@ -53,7 +53,7 @@ namespace TapCleaner.Services
             DbContext.UserQueries.Add(userQuery);
             await DbContext.SaveChangesAsync();
 
-            error.Name = "Uspješno ste poslali upit!";
+            error.Name = "Query successfully added!";
             return error;
         }
 
@@ -88,6 +88,42 @@ namespace TapCleaner.Services
                 return (error, null);
             }
             return(error, queries);
+        }
+
+        public async Task<ErrorProvider> DeleteQuery(int queryId)
+        {
+            if(queryId < 0)
+            {
+                error = new ErrorProvider()
+                {
+                    Status = true,
+                    Name = "ID must be higher than -1"
+                };
+                return (error);
+            }
+
+            var queryFromDatabase = await DbContext.UserQueries.FirstOrDefaultAsync(x => x.Id == queryId);
+
+            if (queryFromDatabase == null)
+            {
+                error = new ErrorProvider()
+                {
+                    Status = true,
+                    Name = "There is no query with same data!"
+                };
+                return error;
+            }
+
+            DbContext.UserQueries.Remove(queryFromDatabase);
+            await DbContext.SaveChangesAsync();
+
+            error = new ErrorProvider()
+            {
+                Status = false,
+                Name = "Query successfully removed!"
+            };
+
+            return error;
         }
     }
 }
