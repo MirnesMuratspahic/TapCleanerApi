@@ -145,6 +145,17 @@ namespace TapCleaner.Services
                 return error;
             }
 
+            var reportFromDatabase = await DbContext.UserContainers.FirstOrDefaultAsync(x => x.User.Email == dtoUserContainer.UserEmail
+            && x.Container.Name == dtoUserContainer.ContainerName); 
+
+            if(reportFromDatabase != null)
+            {
+                return error = new ErrorProvider()
+                {
+                    Status = true,
+                    Name = "Already reported!"
+                };
+            }
 
             UserContainer userContainer = new UserContainer()
             {
@@ -179,6 +190,13 @@ namespace TapCleaner.Services
                     Name = "None such container",
                 };
                 return error;
+            }
+
+            var reportsFromDatabase = await DbContext.UserContainers.Where(x => x.Container.Name == name).ToListAsync();
+
+            if(reportsFromDatabase != null)
+            {
+                DbContext.RemoveRange(reportsFromDatabase);
             }
 
             container.Condition = "Empty";
