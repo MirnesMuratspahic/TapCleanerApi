@@ -26,15 +26,6 @@ namespace TapCleaner.Services
         public async Task<(ErrorProvider, List<Container>)> GetContainers()
         {
             var containers = await DbContext.Containers.ToListAsync();
-            if (containers.Count == 0)
-            {
-                error = new ErrorProvider()
-                {
-                    Name = "None container in database!",
-                    Status = true,
-                };
-                return (error, null);
-            }
             return (error, containers);
         }
 
@@ -93,11 +84,11 @@ namespace TapCleaner.Services
             }
             var newContainer = new Container()
             {
-                Name = "Container " + nextNumber,
+                Name = "Kontejner " + nextNumber,
                 Adress = dtoContainer.Adress,
                 Coordinates = dtoContainer.Coordinates,
                 Type = dtoContainer.Type,
-                Condition = "Empty"
+                Condition = "Prazan"
             };
 
             await DbContext.Containers.AddAsync(newContainer);
@@ -164,7 +155,7 @@ namespace TapCleaner.Services
                 Date = DateTime.Now
             };
 
-            containerFromDatabase.Condition = "Full";
+            containerFromDatabase.Condition = "Pun";
             containerFromDatabase.NumberOfReports += 1;
 
             await DbContext.UserContainers.AddAsync(userContainer);
@@ -199,7 +190,7 @@ namespace TapCleaner.Services
                 DbContext.RemoveRange(reportsFromDatabase);
             }
 
-            container.Condition = "Empty";
+            container.Condition = "Prazan";
             container.NumberOfReports = 0;
             await DbContext.SaveChangesAsync();
 
